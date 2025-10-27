@@ -26,15 +26,16 @@
 
 ### Esquema de Red
 
-| Dispositivo / Servidor | Dirección IP |
-| :--------------------- | :----------- |
-| **Router / DNS / DHCP**| 192.168.9.1 |
-|                        | 192.168.26.1 |
-| **BBDD** | 192.168.9.5 |
-| **Web SRV** | 192.168.26.10|
-| **FTP** | 192.168.26.15|
-| **PC1 - Ubuntu** | 192.168.9.X|
-| **PC2 - Windows** | 192.168.9.X |
+| Dispositivo / Servidor | Dirección IP  |
+| :--------------------- | :-----------  |
+| **Router / DNS / DHCP**| 192.168.9.1   |
+|                        | 192.168.26.1  |
+|                        |               |
+| **BBDD**               | 192.168.9.5   |
+| **Web SRV**            | 192.168.26.10 |
+| **FTP**                | 192.168.26.15 |
+| **PC1 - Ubuntu**       | 192.168.9.25  |
+| **PC2 - Windows**      | 192.168.9.30  |
 
 ## 2. Maquinas
 
@@ -59,4 +60,8 @@ Iptables NAT:
 Configuració DNS:
 
 Configuració DHCP:
+
+### *2. BBDD*
+La Base de dades es desplegarà en el servidor amb l'adreça IP **192.168.9.5/24**.
+La connectivitat a Internet es proporcionara a través d'una màquina router. Aquesta conexió externa està configurada mitjançant **DHCP**, de manera que l'adreça IP publica ( o de sortida) es gestiona de forma dinàmica pel router.
 
