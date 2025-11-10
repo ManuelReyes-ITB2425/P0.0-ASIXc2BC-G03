@@ -24,6 +24,8 @@
 
 ## 1. Topologia
 
+<img width="1920" height="1080" alt="NAT" src="https://github.com/user-attachments/assets/5b2dd649-0265-4bdb-b8f5-7e658d61d04e" />
+
 ### Esquema de Red
 
 | Dispositivo / Servidor | Dirección IP  |
