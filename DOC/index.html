@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipamiento educativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <div class="container">
+        <h1 class="neon-text">Lista de equipamiento educativo BCN</h1>
+        <p class="sub-text">Iniciando consulta al Servidor de Datos...</p>
+
+        <div id="data-container" class="data-box">
+            <p id="loading-message">Cargando datos...</p>
+            </div>
+    </div>
+
+    <script>
+        // Este script se ejecuta cuando la página se carga
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+        });
+
+        async function fetchData() {
+            try {
+                // IMPORTANTE: Esta es la llamada a TU back-end.
+                // No es la BBDD, es el script PHP que creamos más abajo.
+                const response = await fetch('get_data.php');
+                
+                if (!response.ok) {
+                    throw new Error(`Error de Red: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displayData(data);
+
+            } catch (error) {
+                console.error("Error al obtener datos:", error);
+                document.getElementById('loading-message').innerText = `Error de Conexión. Imposible acceder al servidor.`;
+            }
+        }
+
+        function displayData(data) {
+            const container = document.getElementById('data-container');
+            
+            // Limpiamos el mensaje "Cargando..."
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = '<p>No se encontraron registros en el servidor.</p>';
+                return;
+            }
+
+            // Creamos una tabla para los datos (muy 80s)
+            const table = document.createElement('table');
+            
+            // Creamos la cabecera (usando las claves del primer objeto)
+            const headers = Object.keys(data[0]);
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.innerText = headerText.toUpperCase();
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Creamos el cuerpo de la tabla
+            const tbody = document.createElement('tbody');
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.innerText = item[header];
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+    </script>
+</body>
+</html>
