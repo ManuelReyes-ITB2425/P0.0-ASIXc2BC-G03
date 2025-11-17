@@ -52,3 +52,5 @@ sudo systemctl restart mysql
 ```
 
 <img width="555" height="26" alt="image" src="https://github.com/user-attachments/assets/2ae99f9b-d3c8-4daa-a775-a50eca22e0cc" />
+
+git -c user.useConfigOnly=true commit --quiet --allow-empty-message --file
