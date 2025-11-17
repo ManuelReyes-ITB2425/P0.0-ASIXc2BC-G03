@@ -24,7 +24,7 @@
 
 ## 1. Topologia
 
-<img width="1920" height="1080" alt="NAT" src="https://github.com/user-attachments/assets/5b2dd649-0265-4bdb-b8f5-7e658d61d04e" />
+![Dibujo.png](IMG/Dibujo.png)
 
 ### Esquema de Red
 
@@ -41,10 +41,14 @@
 ## 2. Maquinas
 
 ### 1. Router
+S'ha desplegat una infraestructura de xarxa multicapa, dissenyada per allotjar serveis web i de dades. La topologia es divideix en tres zones de xarxa diferents, gestionades per un router central (`R-N03`), per aïllar els serveis i controlar el flux de trànsit:
 
-ITB15: 192.168.9.1/24
+-   **Router Central (R-NCC):** Actua com a nucli de la xarxa, gestionant l'encaminament, el tallafocs i els serveis essencials de xarxa (DHCP i DNS).
+-   **Xarxa Intranet (`192.168.9.0/24`):** És la xarxa interna i segura. Allotja les estacions de treball dels clients (`PC1-Ubuntu`, `PC2-Windows`) i el servidor de la base de dades (`B-N03`) per protegir-lo de l'accés directe.
+-   **Xarxa DMZ (Zona Desmilitaritzada) (`192.168.26.0/24`):** És una xarxa perimetral dissenyada per allotjar els serveis que necessiten ser accessibles des d'altres xarxes, com el Servidor Web (`W-N03`) i el Servidor FTP (`F-N03`).
+-   **Connexió WAN (NAT):** El router proporciona sortida a Internet a les màquines de la Intranet i la DMZ mitjançant Traducció d'Adreces de Xarxa (NAT), permetent actualitzacions de programari mentre es protegeixen les adreces IP internes.
 
-ITB15a: 192.168.26.1/24
+Aquest són els adaptadors que tenim:
 
 enp1s0: NAT
 
@@ -54,18 +58,43 @@ enp3s0: DMZ
 
 #### Configuració de xarxa:
 
+Per començar, configurem la nostra xarxa, la enp1s0 ens donarà sortida a internet, el enp2s0 és on estarà la intranet, és on es conectaran els nostres clients. També posarem la BBDD, després a la DMZ, els serveis que ens interessa que estiguin exposats a internet, FTP i el servidor web. 
 ```bash
 sudo cat /etc/netplan/00-installer-config.yaml
 ```
 
 <img width="768" height="434" alt="image" src="https://github.com/user-attachments/assets/08793265-804a-423e-9610-fdc75127bdd7" />
 
+-   **Interfície WAN (`enp1s0`):** S'ha configurat amb `dhcp4: true` perquè obtingui la seva adreça IP de la xarxa externa.
+-   **Interfícies Internes (`enp2s0`, `enp3s0`):** S'han configurat amb adreces IP **estàtiques**. Això és **crític i obligatori**. Aquestes adreces són les portes d'enllaç (`gateway`) per a les seves respectives xarxes. Han de ser fixes i predictibles perquè els clients i servidors sàpiguen sempre a qui enviar el trànsit destinat a altres xarxes.
+
+apliquem la configuració:
+
+```bash
+sudo netplan apply
+```
+Verificació:
+
+![img_1.png](IMG/img_1.png)
+
 Configuració IP Forwarding:
+
+Per continuar, hem d'habilitar el reenvio d'IP, això permet que el tràfic passi a través del router i que actuï com a router.
+
+```bash
+sudo nano /etc/sysctl.conf
+```
 
 <img width="781" height="166" alt="image" src="https://github.com/user-attachments/assets/288f3265-679a-4545-b57e-1379f0828778" />
 
+apliquem el canvi:
+```bash
+sudo systctl -p
+```
+
 Iptables NAT:
 
+El servei `iptables` del nucli de Linux s'utilitza per controlar tot el trànsit que flueix a través del router, actuant com a tallafocs principal i motor de NAT.
 ```bash
 sudo iptables -t nat -A POSTROUTING -O enp1s0 -j MASQUERADE
 sudo iptables -t nat -L -v -n
@@ -73,6 +102,7 @@ sudo iptables -t nat -L -v -n
 
 <img width="744" height="265" alt="image" src="https://github.com/user-attachments/assets/2e1b7ab3-47c4-4e8a-8588-d5cbb9a981b1" />
 
+La taula `nat` s'encarrega de proporcionar accés a Internet a les dues xarxes internes. Mitjançant una única regla `MASQUERADE` a la cadena `POSTROUTING`, el router tradueix dinàmicament les adreces IP privades a la seva pròpia adreça pública de la interfície WAN. Aquesta configuració permet que tots els equips interns naveguin i rebin actualitzacions de forma segura, ocultant l'estructura de la xarxa interna de l'exterior i optimitzant l'ús d'adreces IP.
 ```bash
 sudo iptables -A FORWARD -i enp2s0 -o enp3s0 -j ACCEPT
 sudo iptables -A FORWARD -i enp2s0 -o enp2s0 -m state --state RELATED,ESTABLISHED -j ACCEPT
@@ -80,6 +110,14 @@ sudo /usr/sbin/netfilter-persistent save
 ```
 
 <img width="772" height="91" alt="image" src="https://github.com/user-attachments/assets/12e891a1-3914-4ba8-874a-e1f16e953c40" />
+
+A més d'aquestes comandes, si anem a /etc/iptables/rules.v4 veurem la configuració completa on controlem el transit i accesos a les xarxes. 
+
+![img.png](IMG/img.png)
+
+La taula `filter` gestiona el flux de trànsit entre les interfícies: permet la comunicació des de la Intranet (xarxa de confiança alta) cap a la DMZ i Internet, però bloqueja per defecte les connexions iniciades en sentit invers. La regla més crítica implementa el principi de mínim privilegi, creant una excepció altament específica que permet al Servidor Web comunicar-se amb la Base de Dades a través del port de MySQL. 
+
+
 
 #### Configuració DNS:
 instal·lació del bind9 per la configuració del DNS.
