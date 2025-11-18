@@ -13,8 +13,8 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     animation: flicker 0.1s infinite alternate;
+    --neon-color: #ff7f50;
 }
-
 .scanlines {
     position: fixed;
     top: 0;
@@ -28,20 +28,18 @@ body {
         rgba(0, 0, 0, 0.05) 3px,
         rgba(0, 0, 0, 0.05) 4px
     );
-    z-index: 10;
+    z-index: 1;
 }
-
 .container {
     max-width: 800px;
     margin: 40px auto;
-    border: 3px solid #ff7f50; /* Naranja/Melocotón */
+    border: 3px solid #ff7f50;
     padding: 20px;
     background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 0 20px rgba(249, 199, 162, 0.7), inset 0 0 15px rgba(249, 199, 162, 0.7);
 }
-
 .neon-text {
-    color: #ff7f50; /* Naranja/Melocotón */
+    color: #ff7f50;
     text-shadow:
         0 0 5px #fd9b82,
         0 0 10px #ff7f50,
@@ -50,86 +48,74 @@ body {
     font-size: 2.5em;
     margin-top: 0;
 }
-
 .sub-text {
     text-align: center;
-    color: #72a5c5; /* Azul Suave */
+    color: #72a5c5;
     animation: blink 1s step-end infinite;
 }
-
 .data-box {
-    border: 2px dashed #ff7f50; /* Naranja/Melocotón punteado */
+    border: 2px dashed #ff7f50;
     padding: 15px;
     min-height: 100px;
     background: rgba(255, 255, 255, 0.6);
-    overflow-x: auto; 
+    overflow-x: auto;
 }
-
-
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
-    color: #4b6a8f; /* Color de texto del cuerpo */
+    color: #4b6a8f;
     min-width: 100%;
 }
-
 th, td {
-    border: 1px solid #72a5c5; 
+    border: 1px solid #72a5c5;
     padding: 8px 12px;
     text-align: left;
 }
-
 th {
-    background-color: #a2d9f9; /* Azul claro */
-    color: #4b6a8f; /* Color oscuro para contraste */
-    border-bottom: 2px solid #ff7f50; /* Destaca la línea de separación con Naranja */
+    background-color: #a2d9f9;
+    color: #4b6a8f;
+    border-bottom: 2px solid #ff7f50;
 }
-
 tbody tr:nth-child(even) {
-    background-color: rgba(162, 217, 249, 0.3); /* Fondo azul claro semitransparente */
+    background-color: rgba(162, 217, 249, 0.3);
 }
-
 tbody tr:hover {
-    background-color: rgba(255, 127, 80, 0.2); /* Efecto hover con el color principal Naranja */
-    color: #ff7f50; /* Resalta el texto con Naranja */
+    background-color: rgba(255, 127, 80, 0.2);
+    color: #ff7f50;
     cursor: default;
 }
-
 .search-input {
-    width: 80%;
+    font-family: 'VT323', monospace;
+    font-size: 20px;
     padding: 10px;
-    margin: 20px 0;
-    font-family: 'VT323', monospace; /* Para mantener el estilo pixelado */
-    font-size: 1.2em;
-    color: var(--neon-color); /* Color neón */
-    background-color: transparent;
-    border: 2px dashed var(--neon-color); /* Borde punteado retro */
-    box-shadow: 0 0 5px var(--neon-color);
-    outline: none; /* Quitar el contorno al enfocar */
-    transition: box-shadow 0.3s;
-    text-align: center;
+    background-color: #a2d9f9;
+    color: #4b6a8f;
+    border: 1px solid #72a5c5;
+    outline: none;
+    width: 60%;
+    max-width: 500px;
+    display: block;
+    margin: 20px auto;
+    text-align: left;
 }
-
-.search-input::placeholder {
-    color: rgba(255, 255, 255, 0.5); /* Placeholder más tenue */
-}
-
 .search-input:focus {
-    box-shadow: 0 0 15px var(--neon-color); /* Brillo al enfocar */
+    box-shadow: 0 0 10px #72a5c5;
+    border: 2px solid #72a5c5;
 }
-
-#loading-message {
-    color: #ff7f50; /* Usa el color principal para errores */
+.search-input::placeholder {
+    color: #4b6a8f;
+    opacity: 0.7;
+}
+#status-message {
+    color: #ff7f50;
     font-size: 1.2em;
     text-align: center;
 }
-
 @keyframes flicker {
     0% { opacity: 1; }
     100% { opacity: 0.99; }
 }
-
 @keyframes blink {
     50% { opacity: 0; }
 }

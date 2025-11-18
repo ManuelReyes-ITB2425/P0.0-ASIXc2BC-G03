@@ -1,6 +1,6 @@
    # Acceso para administradores
 
-   En este documento se explica y muestra la configuración de los servidores y los servicios del proyecto.
+   Los siguientes enlaces llevan a la explicación y configuración de los servidores y los servicios del proyecto. Estan divididos por los servidores que usa el proyecto:
    
    
    - [ROUTER](DOC/Router.md)

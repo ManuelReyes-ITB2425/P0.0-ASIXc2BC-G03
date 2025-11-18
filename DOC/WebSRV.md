@@ -67,4 +67,4 @@ sudo systemctl status apache2.service
 
 Y comprobar la conectividad desde los clientes
 
-<img width="837" height="502" alt="image" src="https://github.com/user-attachments/assets/36221e37-1062-4d9e-ba0e-d8815cfb5289" />
+![alt text](/IMG/image.png)

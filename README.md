@@ -68,10 +68,31 @@ El servidor web (192.168.26.10) es la pieza central del proyecto, su funcion pri
 
 ## 3. Clientes
 
+Los clientes en el projectos serán dos equipos de distinto sistema operativo: Linux y Windows. Estos forman parte de la comprobación del servicio del proyecto. Ayudan a visualizar que toda la configuración, permisos y accesos funcionan como debería. Son cruciales para poder lanzar a internet el servicio sin temor a posibles fallos.
 
 
+## 4. ProfHub
 
+Es la plataforma que hemos utilizados los miembros del equipo para poder organizar todo el proyecto. Cubre nuestras necesidades con la marco de trabajo que hemos usado: **Scrum**
 
+Este marco está diseñado para gestionar y desarrollar productos y proyectos complejos donde los requisitos cambian rápidamente y la entrega necesita ser iterativa e incremental.
 
+Su funcionamiento se basa en la transparencia, inspección y adaptación a través de ciclos de trabajo cortos y fijos llamados **Sprints**.
 
+Los Tres Pilares:
 
+- *Transparencia*: El proceso y el trabajo deben ser visibles para todos los involucrados. Esto se logra usando herramientas como tableros Kanban.
+
+- *Inspección*: Los resultados del trabajo (los incrementos) y los procesos deben ser inspeccionados con frecuencia y diligencia para detectar variaciones o problemas indeseados.
+
+- *Adaptación*: Si la inspección revela que algo se desvía de los objetivos o estándares, el proceso debe ajustarse lo antes posible.
+
+El corazón de Scrum es el Sprint, un contenedor de tiempo fijo (generalmente 2 a 4 semanas) durante el cual se crea un incremento de producto potencialmente entregable.
+
+Los Tres Artefactos:
+
+- *Product Backlog* (Pila de Producto): La lista priorizada de todo lo que podría ser necesario en el producto (funcionalidades, errores, mejoras).
+
+- *Sprint Backlog* (Pila del Sprint): El subconjunto de elementos del Product Backlog que el equipo selecciona para trabajar durante un Sprint.
+
+- *Incremento*: El resultado de todo el trabajo completado durante el Sprint. Debe ser utilizable y potencialmente liberable al cliente.
