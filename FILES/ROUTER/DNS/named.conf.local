@@ -1,0 +1,26 @@
+
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+//zona directa
+zone "mmt.com" {
+    type master;
+    file "/etc/bind/db.mmt.com";
+};
+
+//zona inversa para la red de los clientes 192.168.9.0/24
+zone "9.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.192.168.9";
+};
+
+//zona inversa para la red de los servidores 192.168.26.0/24
+zone "26.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.192.168.26";
+};

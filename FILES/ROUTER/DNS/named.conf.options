@@ -1,0 +1,20 @@
+ GNU nano 6.2              /etc/bind/named.conf.options
+        listen-on { 127.0.0.1; 192.168.9.1; 192.168.26.1; };
+        // If your ISP provided one or more IP addresses for stable
+        // nameservers, you probably want to use them as forwarders.
+        // Uncomment the following block, and insert the addresses replacing
+        // the all-0's placeholder.
+        allow-query { localhost; localnets; };
+        forwarders {
+            8.8.8.8;
+            1.1.1.1;
+        };
+
+        //=====================================================================>
+        // If BIND logs error messages about the root key being expired,
+        // you will need to update your keys.  See https://www.isc.org/bind-keys
+        //=====================================================================>
+        dnssec-validation auto;
+
+        listen-on-v6 { any; };
+        }; //
