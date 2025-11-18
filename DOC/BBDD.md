@@ -1,8 +1,5 @@
 ### *2. BBDD*
 
-La Base de dades es desplegarà en el servidor amb l'adreça IP **192.168.9.5/24**.
-La connectivitat a Internet es proporcionara a través d'una màquina router. Aquesta conexió externa està configurada mitjançant **DHCP**, de manera que l'adreça IP publica ( o de sortida) es gestiona de forma dinàmica pel router.
-
 #### Configuración:
 
 ```bash

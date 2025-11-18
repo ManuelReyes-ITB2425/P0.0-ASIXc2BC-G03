@@ -1,8 +1,7 @@
-### *4. Web SRV*
+# *4. Web SRV*
 
-El servidor web (192.168.26.10) es la pieza central del proyecto, su funcion principal es alojar la web y servir la pagina a los usuarios y clientes. Dspués de que el router dirija a los usuarios que buscan la pagina en internet a 192.168.26.10, el servidor apache recive la petición. Este procesa contenido estàtico (el index.html y el style.css) y contenido dináimco (el get_data.php) que es un sript que al ejecutarse muestra los datos de la BBDD. Una vez procesado, entregal lla respuesta al router.
+## Configuración:
 
-#### Configuración:
 Instalamos apache2
 
 ```bash
@@ -21,7 +20,7 @@ sudo lsof -i :80
 <img width="814" height="319" alt="image" src="https://github.com/user-attachments/assets/ec520a5a-8ff7-497d-bfaf-09d2dc3d54ab" />
 <img width="814" height="135" alt="image" src="https://github.com/user-attachments/assets/6144d6f0-1925-415d-9a5a-ad8d16c0539b" />
 
-Modificamos el archivo index.html para que muestre la web que deseamos
+Modificamos el archivo [index.html](/FILES/SRVWeb/index.html) para que muestre la web que deseamos
 
 ```bash
 sudo nano /var/www/html/index.html
@@ -29,7 +28,7 @@ sudo nano /var/www/html/index.html
 
 <img width="811" height="517" alt="image" src="https://github.com/user-attachments/assets/48c5a52f-e61d-4ce7-aa51-6e93dd52dabb" />
 
-Creamos el archivo style.css para que se vea como queremos
+Creamos el archivo [style.css](/FILES/SRVWeb/style.css) para que se vea como queremos
 
 ```bash
 sudo touch /var/www/html/style.css
@@ -38,7 +37,7 @@ sudo nano /var/www/html/style.css
 
 <img width="811" height="540" alt="image" src="https://github.com/user-attachments/assets/f16fa002-e084-4566-a273-e29fb61444ba" />
 
-Creamos el script get_data.php para recoger los datos del servidor de BBDD
+Creamos el script [get_data.php](/FILES/SRVWeb/get_data.php) para recoger los datos del servidor de BBDD
 
 ```bash
 sudo touch /var/www/html/get_data.php

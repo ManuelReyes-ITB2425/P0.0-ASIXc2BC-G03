@@ -1,6 +1,6 @@
-### *5. Clientes*
+# *5. Clientes*
 
-#### a. PC1 - Ubuntu
+## a. PC1 - Ubuntu
 Actualizamos las librerias del apt-get y del apt
 
 ```bash
@@ -23,4 +23,4 @@ sudo systemctl status ssh.service
 
 <img width="811" height="208" alt="image" src="https://github.com/user-attachments/assets/c272d8c3-433a-4df1-856c-75e6cb018a8a" />
 
-#### a. PC2 - Windows
+## a. PC2 - Windows

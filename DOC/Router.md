@@ -1,4 +1,4 @@
-### 1. Router
+# 1. Router
 
 ITB15: 192.168.9.1/24
 
@@ -10,7 +10,7 @@ enp2s0: intranet
 
 enp3s0: DMZ
 
-#### Configuració de xarxa:
+## Configuració de xarxa:
 
 Per començar, configurem la nostra xarxa, la enp1s0 ens donarà sortida a internet, el enp2s0 és on estarà la intranet, és on es conectaran els nostres clients. També posarem la BBDD, després a la DMZ, els serveis que ens interessa que estiguin exposats a internet, FTP i el servidor web. 
 ```bash
@@ -73,7 +73,7 @@ La taula `filter` gestiona el flux de trànsit entre les interfícies: permet la
 
 
 
-#### Configuració DNS:
+## Configuració DNS:
 instal·lació del bind9 per la configuració del DNS.
 
 ```bash
@@ -132,7 +132,7 @@ sudo named-checkzone 26.168.192.in-addr.arpa /etc/bind/db.192.168.26
 ```
 <img width="812" height="112" alt="image" src="https://github.com/user-attachments/assets/e893fcf6-2aa9-41ce-a12a-d933cbdaa2ef" />
 
-#### *Configuració DHCP:*
+## *Configuració DHCP:*
 Instalació DHCP
 
 ```bash

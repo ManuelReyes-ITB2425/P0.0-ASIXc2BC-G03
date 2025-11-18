@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipament educatiu</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <div class="container">
+        <h1 class="neon-text">Llista d'equipament educatiu BCN</h1>
+        <p class="sub-text">Iniciant consulta al Servidor de Dades...</p>
+
+        <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Cercar per ID, Nom o Email..." class="search-input">
+
+        <div id="data-container" class="data-box">
+            <p id="loading-message">Carregant dades...</p>
+        </div>
+    </div>
+
+    <script>
+        // 1. DECLARAR LA VARIABLE GLOBAL PARA GUARDAR LOS DATOS ORIGINALES
+        let originalData = []; 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+        });
+
+        async function fetchData() {
+            try {
+                const response = await fetch('get_data.php');
+
+                if (!response.ok) {
+                    throw new Error(`Error de Red: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // 2. GUARDAR LOS DATOS ORIGINALES AQUÍ
+                originalData = data;
+
+                displayData(originalData); // Mostrar los datos iniciales
+
+            } catch (error) {
+                console.error("Error al obtenir les dades:", error);
+                document.getElementById('loading-message').innerText = `Error de Conexió. Imposible accedir al servidor.`;
+            }
+        }
+
+        function displayData(data) {
+            const container = document.getElementById('data-container');
+            
+            // Limpiamos el mensaje "Carregant..."
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = '<p>No se encontraron registros en el servidor.</p>';
+                return;
+            }
+
+            // Creamos la tabla
+            const table = document.createElement('table');
+            
+            // Cabecera
+            const headers = Object.keys(data[0]);
+            const thead = document.createElement('thead');
+            const headerRow = document.createElement('tr');
+            
+            headers.forEach(headerText => {
+                const th = document.createElement('th');
+                th.innerText = headerText.toUpperCase();
+                headerRow.appendChild(th);
+            });
+            
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Cuerpo
+            const tbody = document.createElement('tbody');
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+                headers.forEach(header => {
+                    const td = document.createElement('td');
+                    td.innerText = item[header];
+                    tr.appendChild(td);
+                });
+                tbody.appendChild(tr);
+            });
+
+            table.appendChild(tbody);
+            container.appendChild(table);
+        }
+
+        function filterTable() {
+        	const input = document.getElementById('searchInput');
+	        const filterText = input.value.toLowerCase();
+        
+        	const filteredData = originalData.filter(item => {
+            		return Object.values(item).some(value => 
+		                String(value).toLowerCase().includes(filterText)
+            		);
+        	});
+
+            displayData(filteredData);
+        }
+    </script>
+</body>
+</html>

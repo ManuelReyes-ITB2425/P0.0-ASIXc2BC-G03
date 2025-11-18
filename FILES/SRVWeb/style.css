@@ -34,14 +34,14 @@ body {
 .container {
     max-width: 800px;
     margin: 40px auto;
-    border: 3px solid #ff7f50;
+    border: 3px solid #ff7f50; /* Naranja/Melocotón */
     padding: 20px;
     background: rgba(255, 255, 255, 0.7);
     box-shadow: 0 0 20px rgba(249, 199, 162, 0.7), inset 0 0 15px rgba(249, 199, 162, 0.7);
 }
 
 .neon-text {
-    color: #ff7f50;
+    color: #ff7f50; /* Naranja/Melocotón */
     text-shadow:
         0 0 5px #fd9b82,
         0 0 10px #ff7f50,
@@ -53,37 +53,76 @@ body {
 
 .sub-text {
     text-align: center;
-    color: #72a5c5;
+    color: #72a5c5; /* Azul Suave */
     animation: blink 1s step-end infinite;
 }
 
 .data-box {
-    border: 2px dashed #ff7f50;
+    border: 2px dashed #ff7f50; /* Naranja/Melocotón punteado */
     padding: 15px;
     min-height: 100px;
     background: rgba(255, 255, 255, 0.6);
+    overflow-x: auto; 
 }
+
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
+    color: #4b6a8f; /* Color de texto del cuerpo */
+    min-width: 100%;
 }
 
 th, td {
-    border: 1px solid #72a5c5;
+    border: 1px solid #72a5c5; 
     padding: 8px 12px;
     text-align: left;
 }
 
 th {
-    background-color: #a2d9f9;
-    color: #4b6a8f;
+    background-color: #a2d9f9; /* Azul claro */
+    color: #4b6a8f; /* Color oscuro para contraste */
+    border-bottom: 2px solid #ff7f50; /* Destaca la línea de separación con Naranja */
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(162, 217, 249, 0.3); /* Fondo azul claro semitransparente */
 }
 
 tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #fd9b82;
+    background-color: rgba(255, 127, 80, 0.2); /* Efecto hover con el color principal Naranja */
+    color: #ff7f50; /* Resalta el texto con Naranja */
+    cursor: default;
+}
+
+.search-input {
+    width: 80%;
+    padding: 10px;
+    margin: 20px 0;
+    font-family: 'VT323', monospace; /* Para mantener el estilo pixelado */
+    font-size: 1.2em;
+    color: var(--neon-color); /* Color neón */
+    background-color: transparent;
+    border: 2px dashed var(--neon-color); /* Borde punteado retro */
+    box-shadow: 0 0 5px var(--neon-color);
+    outline: none; /* Quitar el contorno al enfocar */
+    transition: box-shadow 0.3s;
+    text-align: center;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5); /* Placeholder más tenue */
+}
+
+.search-input:focus {
+    box-shadow: 0 0 15px var(--neon-color); /* Brillo al enfocar */
+}
+
+#loading-message {
+    color: #ff7f50; /* Usa el color principal para errores */
+    font-size: 1.2em;
+    text-align: center;
 }
 
 @keyframes flicker {
