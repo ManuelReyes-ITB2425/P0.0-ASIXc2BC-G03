@@ -29,7 +29,7 @@ sudo netplan apply
 ```
 Verificació:
 
-![img_1.png](IMG/img_1.png)
+![img_1.png](../IMG/img_1.png)
 
 Configuració IP Forwarding:
 
@@ -67,7 +67,7 @@ sudo /usr/sbin/netfilter-persistent save
 
 A més d'aquestes comandes, si anem a /etc/iptables/rules.v4 veurem la configuració completa on controlem el transit i accesos a les xarxes. 
 
-![img.png](IMG/img.png)
+![img.png](../IMG/img.png)
 
 La taula `filter` gestiona el flux de trànsit entre les interfícies: permet la comunicació des de la Intranet cap a la DMZ i Internet, però bloqueja per defecte les connexions iniciades en sentit invers. La regla més crítica implementa el principi de mínim privilegi, creant una excepció altament específica que permet al Servidor Web comunicar-se amb la Base de Dades a través del port de MySQL. 
 
@@ -96,7 +96,7 @@ Configurarem una zona directa y dues zones inverses, l’idea es que resolgui am
 sudo nano /etc/bind/named.conf.local
 ```
 
-![img_2.png](IMG/img_2.png)
+![img_2.png](../IMG/img_2.png)
 
 Zona directa:
 
@@ -105,7 +105,7 @@ sudo cp /etc/bind/db.local /etc/bind/db.mmt.com
 ```
 <img width="803" height="43" alt="image" src="https://github.com/user-attachments/assets/668d23d4-ceb7-4bcc-a78c-1afee53bc0b1" />
 
-![img_3.png](IMG/img_3.png)
+![img_3.png](../IMG/img_3.png)
 
 Zona inversa:
 Aqui tenim la primera zona inversa, correspont a la DMZ. 
@@ -117,14 +117,14 @@ sudo nano /etc/bind/db.192.168.26
 ```
 <img width="808" height="39" alt="image" src="https://github.com/user-attachments/assets/89ce76f4-f9e5-40fa-b41c-73797a999bc0" />
 
-![img_4.png](IMG/img_4.png)
+![img_4.png](../IMG/img_4.png)
 
 Segona zona inversa, aquesta es la intranet. 
 
 ```bash
 sudo nano /etc/bind/db.192.168.9
 ```
-![img_5.png](IMG/img_5.png)
+![img_5.png](../IMG/img_5.png)
 
 Un cop configurat, podem verificar la sintaxis i que tot estigui correcte amb:
 ```bash
@@ -147,8 +147,8 @@ l'arxiu de configuració es el seguent:
 ```bash
 /etc/dhcp/dhcpd.conf
 ```
-![img_6.png](IMG/img_6.png)
-![img_7.png](IMG/img_7.png)
+![img_6.png](../IMG/img_6.png)
+![img_7.png](../IMG/img_7.png)
 
 El posem en marxa, ara els ordinadors clients rebran ips i sortiran a internet.
 
