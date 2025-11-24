@@ -50,6 +50,8 @@ Instalamos ssh
 
 ```bash
 sudo apt-get install openssh-service
+sudo apt install php-mysqli
+sudo apt install mysql-client
 sudo systemctl status ssh.service
 ```
 <img width="850" height="154" alt="image" src="https://github.com/user-attachments/assets/6b09195c-90f9-41fc-b0e2-022e22840953" />
