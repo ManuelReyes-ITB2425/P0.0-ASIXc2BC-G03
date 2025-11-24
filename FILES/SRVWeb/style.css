@@ -112,6 +112,12 @@ tbody tr:hover {
     font-size: 1.2em;
     text-align: center;
 }
+#data-container {
+    overflow-x: auto;
+}
+#data-container table {
+    min-width: 100%;
+}
 @keyframes flicker {
     0% { opacity: 1; }
     100% { opacity: 0.99; }
