@@ -13,7 +13,7 @@
 
 ## 1.Topologia
 
-![Dibujo.png](IMG/Dibujo.png)
+![Dibujo.png](IMG%2FDibujo.png)
 
 ### Esquema de Red
 
