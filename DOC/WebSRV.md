@@ -46,10 +46,12 @@ sudo nano /var/www/html/get_data.php
 
 <img width="834" height="598" alt="image" src="https://github.com/user-attachments/assets/09b5ce82-1447-42af-8032-a0542ee7e686" />
 
-Instalamos ssh
+Instalamos ssh, php-mysql para que funcione el php que acabamos de crear y mysql-client para poder acceder como cliente a la bbdd.
 
 ```bash
 sudo apt-get install openssh-service
+sudo apt install php-mysqli
+sudo apt install mysql-client
 sudo systemctl status ssh.service
 ```
 <img width="850" height="154" alt="image" src="https://github.com/user-attachments/assets/6b09195c-90f9-41fc-b0e2-022e22840953" />

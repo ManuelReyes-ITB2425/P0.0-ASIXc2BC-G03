@@ -12,28 +12,30 @@ enp3s0: DMZ
 
 ## Configuració de xarxa:
 
-Per començar, configurem la nostra xarxa, la enp1s0 ens donarà sortida a internet, el enp2s0 és on estarà la intranet, és on es conectaran els nostres clients. També posarem la BBDD, després a la DMZ, els serveis que ens interessa que estiguin exposats a internet, FTP i el servidor web. 
+Para comenzar, procederemos a configurar nuestra red. La interfaz enp1s0 nos proporcionará la salida a Internet, mientras que en la enp2s0 se ubicará la intranet, donde se conectarán nuestros clientes.
+
+También implementaremos la base de datos (BBDD). Posteriormente, ubicaremos en la DMZ los servicios que nos interesa exponer a Internet: el servidor FTP y el servidor web.
 ```bash
 sudo cat /etc/netplan/00-installer-config.yaml
 ```
 
 <img width="768" height="434" alt="image" src="https://github.com/user-attachments/assets/08793265-804a-423e-9610-fdc75127bdd7" />
 
--   **Interfície WAN (`enp1s0`):** S'ha configurat amb `dhcp4: true` perquè obtingui la seva adreça IP de la xarxa externa.
--   **Interfícies Internes (`enp2s0`, `enp3s0`):** S'han configurat amb adreces IP **estàtiques**. Això és **crític i obligatori**. Aquestes adreces són les portes d'enllaç (`gateway`) per a les seves respectives xarxes. Han de ser fixes i predictibles perquè els clients i servidors sàpiguen sempre a qui enviar el trànsit destinat a altres xarxes.
+- **Interfaz WAN (`enp1s0`):** Se ha configurado con `dhcp4: true` para que obtenga su dirección IP de la red externa.
+- **Interfaces Internas (`enp2s0`, `enp3s0`):** Se han configurado con direcciones IP **estáticas**. Estas direcciones son las puertas de enlace (`gateway`) para sus respectivas redes. Deben ser fijas y para que los clientes y servidores sepan siempre a quién enviar el tráfico destinado a otras redes.
 
-apliquem la configuració:
+Aplicamos la configuración:
 
 ```bash
 sudo netplan apply
 ```
-Verificació:
+Verificación:
 
 ![img_1.png](../IMG/img_1.png)
 
-Configuració IP Forwarding:
+Configuración IP Forwarding:
 
-Per continuar, hem d'habilitar el reenvio d'IP, això permet que el tràfic passi a través del router i que actuï com a router.
+Para continuar, debemos habilitar el reenvío de IP; esto permite que el tráfico pase a través del router y que actúe como router.
 
 ```bash
 sudo nano /etc/sysctl.conf
@@ -41,14 +43,15 @@ sudo nano /etc/sysctl.conf
 
 <img width="781" height="166" alt="image" src="https://github.com/user-attachments/assets/288f3265-679a-4545-b57e-1379f0828778" />
 
-apliquem el canvi:
+aplicamos el cambio:
 ```bash
 sudo systctl -p
 ```
 
 Iptables NAT:
 
-El servei `iptables` del nucli de Linux s'utilitza per controlar tot el trànsit que flueix a través del router, actuant com a tallafocs principal i motor de NAT.
+El servicio `iptables` de Linux se utiliza para controlar todo el tráfico que fluye a través del router, actuando como cortafuegos principal y motor de NAT.
+
 ```bash
 sudo iptables -t nat -A POSTROUTING -O enp1s0 -j MASQUERADE
 sudo iptables -t nat -L -v -n
@@ -56,7 +59,8 @@ sudo iptables -t nat -L -v -n
 
 <img width="744" height="265" alt="image" src="https://github.com/user-attachments/assets/2e1b7ab3-47c4-4e8a-8588-d5cbb9a981b1" />
 
-La taula `nat` s'encarrega de proporcionar accés a Internet a les dues xarxes internes. Mitjançant una única regla `MASQUERADE` a la cadena `POSTROUTING`, el router tradueix dinàmicament les adreces IP privades a la seva pròpia adreça pública de la interfície WAN. Aquesta configuració permet que tots els equips interns naveguin i rebin actualitzacions de forma segura, ocultant l'estructura de la xarxa interna de l'exterior i optimitzant l'ús d'adreces IP.
+La tabla `nat` se encarga de proporcionar acceso a Internet a las dos redes internas. Mediante una única regla `MASQUERADE` en la cadena `POSTROUTING`, el router traduce dinámicamente las direcciones IP privadas a su propia dirección pública de la interfaz WAN. Esta configuración permite que todos los equipos internos naveguen y reciban actualizaciones de forma segura, ocultando la estructura de la red interna del exterior y optimizando el uso de direcciones IP.
+
 ```bash
 sudo iptables -A FORWARD -i enp2s0 -o enp3s0 -j ACCEPT
 sudo iptables -A FORWARD -i enp2s0 -o enp2s0 -m state --state RELATED,ESTABLISHED -j ACCEPT
@@ -65,16 +69,14 @@ sudo /usr/sbin/netfilter-persistent save
 
 <img width="772" height="91" alt="image" src="https://github.com/user-attachments/assets/12e891a1-3914-4ba8-874a-e1f16e953c40" />
 
-A més d'aquestes comandes, si anem a /etc/iptables/rules.v4 veurem la configuració completa on controlem el transit i accesos a les xarxes. 
+Además de estos comandos, si vamos a `/etc/iptables/rules.v4` veremos la configuración completa donde controlamos el tráfico y los accesos a las redes.
 
 ![img.png](../IMG/img.png)
 
-La taula `filter` gestiona el flux de trànsit entre les interfícies: permet la comunicació des de la Intranet cap a la DMZ i Internet, però bloqueja per defecte les connexions iniciades en sentit invers. La regla més crítica implementa el principi de mínim privilegi, creant una excepció altament específica que permet al Servidor Web comunicar-se amb la Base de Dades a través del port de MySQL. 
+La tabla `filter` gestiona el flujo de tráfico entre las interfaces: permite la comunicación desde la Intranet hacia la DMZ e Internet, pero bloquea por defecto las conexiones iniciadas en sentido inverso. La regla más crítica implementa el principio de mínimo privilegio, creando una excepción altamente específica que permite al Servidor Web comunicarse con la Base de Datos a través del puerto de MySQL.
 
-
-
-## Configuració DNS:
-instal·lació del bind9 per la configuració del DNS.
+## Configuración DNS:
+instalación del bind9 para la configuración del DNS.
 
 ```bash
 sudo apt-get install bind9 bind9utils bind9-doc
@@ -82,7 +84,7 @@ sudo apt-get install bind9 bind9utils bind9-doc
 
 <img width="810" height="239" alt="image" src="https://github.com/user-attachments/assets/a3b03dc2-d673-4245-8f2e-e708cc98fcec" />
 
-Comprovem que el servei funciona.
+Comprobamos que el servicio funciona.
 
 ```bash
 sudo systemctl status named.service
@@ -90,7 +92,7 @@ sudo systemctl status named.service
 
 <img width="804" height="327" alt="image" src="https://github.com/user-attachments/assets/2222928f-451f-4aa8-83eb-ca7c1732378f" />
 
-Configurarem una zona directa y dues zones inverses, l’idea es que resolgui amb el nom de domini mmt.com
+Configuraremos una zona directa y dos zonas inversas; la idea es que resuelva con el nombre de dominio mmt.com.
 
 ```bash
 sudo nano /etc/bind/named.conf.local
@@ -108,7 +110,9 @@ sudo cp /etc/bind/db.local /etc/bind/db.mmt.com
 ![img_3.png](../IMG/img_3.png)
 
 Zona inversa:
-Aqui tenim la primera zona inversa, correspont a la DMZ. 
+
+Aquí tenemos la primera zona inversa, correspondiente a la DMZ.
+
 ```bash
 sudo cp /etc/bind/db.local /etc/bind/db.192.168.26
 ```
@@ -119,21 +123,25 @@ sudo nano /etc/bind/db.192.168.26
 
 ![img_4.png](../IMG/img_4.png)
 
-Segona zona inversa, aquesta es la intranet. 
+Segunda zona inversa, esta es la intranet. 
 
 ```bash
 sudo nano /etc/bind/db.192.168.9
 ```
 ![img_5.png](../IMG/img_5.png)
 
-Un cop configurat, podem verificar la sintaxis i que tot estigui correcte amb:
+Una vez configurado, podemos verificar la sintaxis y que todo esté correcto con:
 ```bash
 sudo named-checkzone 26.168.192.in-addr.arpa /etc/bind/db.192.168.26
 ```
 <img width="812" height="112" alt="image" src="https://github.com/user-attachments/assets/e893fcf6-2aa9-41ce-a12a-d933cbdaa2ef" />
 
+Finalmente, esta operativo
+
+![img_8.png](../IMG/img_8.png)
+
 ## *Configuració DHCP:*
-Instalació DHCP
+Instalación DHCP
 
 ```bash
 sudo apt-get install isc-dhcp-server
@@ -141,8 +149,7 @@ sudo apt-get install isc-dhcp-server
 
 <img width="812" height="159" alt="image" src="https://github.com/user-attachments/assets/d5e12fd6-8a61-431c-9469-9b5caef02c62" />
 
-Configurem els rangs que li donarem a cada xarxa. Els dividim en dos, pero hem de tenir en compte que tant la Base de dades, com el servei web y també el FTP es mantindran fixes. 
-l'arxiu de configuració es el seguent: 
+Configuramos los rangos que asignaremos a cada red. Los dividimos en dos, pero debemos tener en cuenta que tanto la Base de Datos, como el servicio web y el FTP se mantendrán fijos. El archivo de configuración es el siguiente:
 
 ```bash
 /etc/dhcp/dhcpd.conf
@@ -150,7 +157,7 @@ l'arxiu de configuració es el seguent:
 ![img_6.png](../IMG/img_6.png)
 ![img_7.png](../IMG/img_7.png)
 
-El posem en marxa, ara els ordinadors clients rebran ips i sortiran a internet.
+Lo ponemos en marcha; ahora los ordenadores clientes recibirán IPs y saldrán a Internet.
 
 ```bash
 sudo systemctl restart isc-dhcp-server
@@ -159,3 +166,5 @@ sudo systemctl status isc-dhcp-server
 ```
 
 <img width="805" height="377" alt="image" src="https://github.com/user-attachments/assets/3db194fc-b5d9-4cbc-8d76-1dd1c9afc8c3" />
+
+

@@ -24,3 +24,5 @@ sudo systemctl status ssh.service
 <img width="811" height="208" alt="image" src="https://github.com/user-attachments/assets/c272d8c3-433a-4df1-856c-75e6cb018a8a" />
 
 ## a. PC2 - Windows
+Nos aseguramos que tenemos instalado la caracteristica de OpenSSH
+![img_11.png](../IMG/img_11.png)
