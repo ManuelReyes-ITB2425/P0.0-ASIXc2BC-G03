@@ -60,6 +60,8 @@ sudo systemctl restart proftpd
 
 Comprobamos que un usuario no pueda subir ningún archivo
 
+![img_6.png](../IMG/FTP/image6.png)
+
 ### Instalación de OpenSSH.
 Además, se instala SSH para administración remota segura:
 ```bash
