@@ -69,4 +69,4 @@ sudo systemctl status apache2.service
 
 Y comprobar la conectividad desde los clientes
 
-![alt text](/IMG/image.png)
+![alt text](/IMG/imagen.png)

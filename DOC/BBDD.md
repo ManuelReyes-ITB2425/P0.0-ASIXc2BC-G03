@@ -159,3 +159,4 @@ IGNORE 1 ROWS;
 ![img_19.png](../IMG/BBDD/image_(19).png)
 
 Finalmente, se verifica que los datos se hayan cargado correctamente y que sean accesibles desde la aplicación web que consulta la base de datos.
+![img_20.png](../IMG/imagen.png)
