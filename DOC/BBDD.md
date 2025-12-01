@@ -1,4 +1,5 @@
 ### *2. BBDD*
+https://docs.google.com/document/d/1N_sEZ5SA6xnWOoJFCSJJe__mImWCC1Rr8eQB6BhURyM/edit?tab=t.0 
 
 #### Configuración:
 
