@@ -1,14 +1,12 @@
-### *2. BBDD*
-https://docs.google.com/document/d/1N_sEZ5SA6xnWOoJFCSJJe__mImWCC1Rr8eQB6BhURyM/edit?tab=t.0 
-
-#### Configuración:
+# *2. BBDD*
+## Configuración del servidor de base de datos MySQL
 
 ```bash
 ip a
 ping 192.168.9.1
 ```
 
-<img width="733" height="264" alt="image" src="https://github.com/user-attachments/assets/4ee83677-edb3-4637-b3f9-15e5aab02728" />
+<img width="733" height="264" alt="image" src="/workspaces/P0.0-ASIXc2BC-G03/IMG/BBDD/Image (1).png" />
 
 <img width="733" height="200" alt="image" src="https://github.com/user-attachments/assets/fb8942c2-a9a6-4863-8e35-98038777449c" />
 
