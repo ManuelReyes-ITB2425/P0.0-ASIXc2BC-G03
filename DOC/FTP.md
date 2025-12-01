@@ -25,6 +25,8 @@ Se edita el archivo /etc/proftpd/proftpd.conf para configurar un entorno anónim
 sudo nano /etc/proftpd/proftpd.conf
 ```
 
+![img_1.png](../IMG/FTP/image.png)
+
 ```bash
 <Anonymous /home/ftp/anonymous>
   User ftp
@@ -37,3 +39,31 @@ sudo nano /etc/proftpd/proftpd.conf
   </Limit>
 </Anonymous>
 ```
+
+![img_2.png](../IMG/FTP/image2.png)
+
+Se crea y prepara el directorio raíz del servicio:
+```bash
+sudo mkdir -p /home/ftp/anonymous
+sudo chown ftp:nogroup /home/ftp/anonymous
+sudo chmod 755 /home/ftp/anonymous
+ ```
+
+![img_3.png](../IMG/FTP/image3.png)
+
+Luego, se reinicia el servicio y se verifica que siga en funcionamiento: 
+```bash
+sudo systemctl restart proftpd
+```
+
+![img_4.png](../IMG/FTP/image4.png)
+
+Comprobamos que un usuario no pueda subir ningún archivo
+
+### Instalación de OpenSSH.
+Además, se instala SSH para administración remota segura:
+```bash
+sudo apt install openssh-server
+```
+
+![img_5.png](../IMG/FTP/image5.png)
