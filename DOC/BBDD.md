@@ -6,7 +6,7 @@ ip a
 ping 192.168.9.1
 ```
 
-<img width="733" height="264" alt="image" src="img/BBDD/image"/>
+<img width="733" height="264" alt="image" src="img/BBDD/image (1).png"/>
 
 <img width="733" height="200" alt="image" src="https://github.com/user-attachments/assets/fb8942c2-a9a6-4863-8e35-98038777449c" />
 
