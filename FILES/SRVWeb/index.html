@@ -1,105 +1,163 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipament educatiu</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipament educatiu</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
+
     <div class="scanlines"></div>
+
     <div class="container">
-        <h1 class="neon-text">Llista d'equipament educatiu BCN</h1>
-        <p id="status-message" class="sub-text">Iniciant consulta al Servidor de Dades...</p>
-        <input 
-            type="text" 
-            id="searchInput" 
-            onkeyup="filterTable()" 
-            placeholder="Busca un ID, Nom, Email..." 
-            class="search-input"
-        >
-        <div id="data-container" class="data-box">
+        <h1 class="neon-text">Llista d'Equipament</h1>
+        <p class="sub-text">Consulta de Dades Educatives BCN</p>
+
+        <!-- Buscador -->
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar per nom, ID..." onkeyup="filterTable()">
+
+        <div class="scroll-wrapper" id="topScrollContainer">
+            <div class="scroll-area" id="topScrollArea"></div>
+        </div>
+
+        <div id="data-container">
+            <table id="tabla-equipamiento">
+                <thead>
+                    <tr>
+                        <!-- Ajusta estos encabezados a tu BBDD -->
+                        <th>ID</th>
+                        <th>NOM</th>
+                        <th>INSTITUT</th>
+                    </tr>
+                </thead>
+                <tbody id="resultado_busqueda">
+
+                </tbody>
+            </table>
+            <p id="loading-msg" style="text-align:center; color: var(--blue-dark); margin-top:10px;">Carregant dades...</p>
         </div>
     </div>
     <script>
         let originalData = [];
+
         document.addEventListener('DOMContentLoaded', () => {
+            initScrollSync();
             fetchData();
         });
+
         async function fetchData() {
-            const loadingMessage = document.getElementById('status-message');
+            const statusElement = document.getElementById('status-message');
+            const loadingMsg = document.getElementById('loading-msg');
+
             try {
                 const response = await fetch('get_data.php');
                 
                 if (!response.ok) {
-                    throw new Error(`Error de Red: ${response.status}`);
+                    throw new Error(`Error HTTP: ${response.status}`);
                 }
+
                 const data = await response.json();
-                
                 originalData = data;
+                
                 displayData(originalData);
+
             } catch (error) {
-                console.error("Error al obtenir les dades:", error);
-                if (loadingMessage) {
-                    loadingMessage.style.animation = 'none';
-                    loadingMessage.innerText = `Error de Conexió. Imposible accedir al servidor.`;
+                console.error("Error al obtener datos:", error);
+                if (statusElement) {
+                    statusElement.style.animation = 'none';
+                    statusElement.style.opacity = '1';
+                    statusElement.innerText = "Error de connexió.";
+                    statusElement.style.color = 'red';
                 }
+            } finally {
+                if (loadingMsg) loadingMsg.style.display = 'none';
             }
         }
+
         function displayData(data) {
-            const container = document.getElementById('data-container');
-            const statusMessage = document.getElementById('status-message');
-            
-            if (statusMessage) {
-                statusMessage.style.animation = 'none';
-                if (data.length > 0) {
-                    statusMessage.innerText = `Dades obtingudes: ${data.length} registres.`;
-                } else {
-                    statusMessage.innerText = `No s'han trobat registres.`;
-                }
-            }
-            container.innerHTML = '';
+            const table = document.getElementById('tabla-equipamiento');
+
+            updateStatus(data.length);
+
+            table.innerHTML = '';
+
             if (data.length === 0) {
+                table.innerHTML = '<tr><td style="text-align:center; padding:20px;">No s\'han trobat resultats.</td></tr>';
                 return;
             }
-            const table = document.createElement('table');
-            
+
             const headers = Object.keys(data[0]);
             const thead = document.createElement('thead');
             const headerRow = document.createElement('tr');
-            
-            headers.forEach(headerText => {
+            headers.forEach(h => {
                 const th = document.createElement('th');
-                th.innerText = headerText.toUpperCase();
+                th.innerText = h.toUpperCase();
                 headerRow.appendChild(th);
             });
-            
             thead.appendChild(headerRow);
             table.appendChild(thead);
+
             const tbody = document.createElement('tbody');
             data.forEach(item => {
                 const tr = document.createElement('tr');
-                headers.forEach(header => {
+                headers.forEach(h => {
                     const td = document.createElement('td');
-                    td.innerText = item[header];
+                    td.innerText = item[h];
                     tr.appendChild(td);
                 });
                 tbody.appendChild(tr);
             });
             table.appendChild(tbody);
-            container.appendChild(table);
+
+            setTimeout(() => {
+                const scrollArea = document.getElementById('topScrollArea');
+                if (scrollArea) {
+                    scrollArea.style.width = table.scrollWidth + 'px';
+                }
+            }, 0);
         }
+
+        function updateStatus(count) {
+            const statusElement = document.getElementById('status-message');
+            if (statusElement) {
+                statusElement.style.animation = 'none';
+                statusElement.style.opacity = '1';
+                
+                if (count > 0) {
+                    statusElement.innerText = `Dades obtingudes: ${count} registres.`;
+                } else {
+                    statusElement.innerText = `No s'han trobat resultats.`;
+                }
+            }
+        }
+
         function filterTable() {
             const input = document.getElementById('searchInput');
-            const filterText = input.value.toLowerCase();
+            const filterText = input.value.toLowerCase().trim();
             
             const filteredData = originalData.filter(item => {
-                return Object.values(item).some(value =>
-                    String(value).toLowerCase().includes(filterText)
+                return Object.values(item).some(val => 
+                    String(val).toLowerCase().includes(filterText)
                 );
             });
+
             displayData(filteredData);
+        }
+
+        function initScrollSync() {
+            const topScroll = document.getElementById('topScrollContainer');
+            const bottomScroll = document.getElementById('data-container');
+
+            if (topScroll && bottomScroll) {
+                topScroll.addEventListener('scroll', () => {
+                    bottomScroll.scrollLeft = topScroll.scrollLeft;
+                });
+                bottomScroll.addEventListener('scroll', () => {
+                    topScroll.scrollLeft = bottomScroll.scrollLeft;
+                });
+            }
         }
     </script>
 </body>
