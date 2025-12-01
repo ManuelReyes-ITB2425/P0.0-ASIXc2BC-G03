@@ -22,9 +22,9 @@ sudo cat /etc/netplan/00-installer-config.yaml
 <img width="768" height="434" alt="image" src="https://github.com/user-attachments/assets/08793265-804a-423e-9610-fdc75127bdd7" />
 
 - **Interfaz WAN (`enp1s0`):** Se ha configurado con `dhcp4: true` para que obtenga su dirección IP de la red externa.
-- **Interfaces Internas (`enp2s0`, `enp3s0`):** Se han configurado con direcciones IP **estáticas**. Esto es **crítico y obligatorio**. Estas direcciones son las puertas de enlace (`gateway`) para sus respectivas redes. Deben ser fijas y predecibles para que los clientes y servidores sepan siempre a quién enviar el tráfico destinado a otras redes.
+- **Interfaces Internas (`enp2s0`, `enp3s0`):** Se han configurado con direcciones IP **estáticas**. Estas direcciones son las puertas de enlace (`gateway`) para sus respectivas redes. Deben ser fijas y para que los clientes y servidores sepan siempre a quién enviar el tráfico destinado a otras redes.
 
-aplicamos la configuración:
+Aplicamos la configuración:
 
 ```bash
 sudo netplan apply
@@ -135,6 +135,10 @@ Una vez configurado, podemos verificar la sintaxis y que todo esté correcto con
 sudo named-checkzone 26.168.192.in-addr.arpa /etc/bind/db.192.168.26
 ```
 <img width="812" height="112" alt="image" src="https://github.com/user-attachments/assets/e893fcf6-2aa9-41ce-a12a-d933cbdaa2ef" />
+
+Finalmente, esta operativo
+
+![img_8.png](../IMG/img_8.png)
 
 ## *Configuració DHCP:*
 Instalación DHCP
