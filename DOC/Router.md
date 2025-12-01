@@ -168,4 +168,3 @@ sudo systemctl status isc-dhcp-server
 <img width="805" height="377" alt="image" src="https://github.com/user-attachments/assets/3db194fc-b5d9-4cbc-8d76-1dd1c9afc8c3" />
 
 
-## *Acceso por SSH:*
